@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS rounds (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  course TEXT NOT NULL,
+  date TEXT NOT NULL,
+  score INTEGER NOT NULL,
+  notes TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS holes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  round_id INTEGER NOT NULL,
+  hole_number INTEGER NOT NULL,
+  par INTEGER NOT NULL,
+  strokes INTEGER NOT NULL,
+  putts INTEGER,
+  fairway_hit INTEGER, -- 0 or 1, SQLite has no boolean type
+  FOREIGN KEY (round_id) REFERENCES rounds(id) ON DELETE CASCADE
+);
