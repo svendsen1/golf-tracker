@@ -25,6 +25,9 @@ export default async function Home() {
                 <p className="font-semibold text-lg">{round.course}</p>
                 <p className="text-gray-500 text-sm">{round.date}</p>
                 <p className="text-gray-500"> {round.notes} </p>
+                <Link href={`/rounds/${round.id}`}>
+                  {round.course} — {round.score}
+                </Link>
               </div>
               <div className="text-2xl font-bold text-green-600">{round.score}</div>
             </li>
