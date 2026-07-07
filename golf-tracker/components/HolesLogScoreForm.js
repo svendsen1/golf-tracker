@@ -12,6 +12,8 @@ export default function HoleScoreForm({ roundId, existingHoles }) {
           hole_number: i + 1,
           par: "",
           strokes: "",
+          putts: "",
+          fairway_hit: false
         }))
   );
 
@@ -24,10 +26,14 @@ export default function HoleScoreForm({ roundId, existingHoles }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    const preparedHoles = holes.map((hole) => ({
+    ...hole,
+    fairway_hit: hole.fairway_hit ? 1 : 0,
+  }));
     const res = await fetch(`/api/rounds/${roundId}/holes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ holes }),
+      body: JSON.stringify({ holes: preparedHoles }),
     });
 
     if (res.ok) {
@@ -52,6 +58,17 @@ export default function HoleScoreForm({ roundId, existingHoles }) {
             placeholder="Strokes"
             value={hole.strokes}
             onChange={(e) => updateHole(i, "strokes", e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Putts"
+            value={hole.putts}
+            onChange={(e) => updateHole(i, "putts", e.target.value)}
+          />
+          <input
+            type="checkbox"
+            checked={!!hole.fairway_hit}
+            onChange={(e) => updateHole(i, "fairway_hit", e.target.checked)}
           />
         </div>
       ))}
